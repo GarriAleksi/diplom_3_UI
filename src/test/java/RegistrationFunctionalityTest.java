@@ -11,6 +11,7 @@ import ru.yandex.practicum.RegisterPage;
 import ru.yandex.practicum.generator.UserGenerator;
 import ru.yandex.practicum.HomePage;
 
+import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
 
 public class RegistrationFunctionalityTest {
@@ -47,8 +48,12 @@ public class RegistrationFunctionalityTest {
     @Test
     @DisplayName("Корректная регистрация нового пользователя")
     public void shouldRegisterValidUser() {
+        String name = userGenerator.getName();
+        String email = userGenerator.getEmail();
+        String password = userGenerator.getValidPassword();
+
         navigateToRegisterPage();
-        registerNewUser(userGenerator.getName(), userGenerator.getEmail(), userGenerator.getValidPassword());
+        registerNewUser(name, email, password);
 
         verifyUserIsRedirectedToLogin();
     }
@@ -87,5 +92,19 @@ public class RegistrationFunctionalityTest {
     private void verifyInvalidPasswordErrorDisplayed() {
         String actualError = registerPage.getTextException();
         assertEquals("Сообщение об ошибке пароля неверно", INCORRECT_PASSWORD_MESSAGE, actualError);
+    }
+
+    @Step("Удаление пользователя с email {0}")
+    private void deleteUser(String email, String password) {
+        // Получение токена доступа
+        String accessToken = loginPage.loginAndGetAccessToken(email, password);
+
+        // Удаление пользователя
+        given()
+                .header("Authorization", "Bearer " + accessToken)
+                .when()
+                .delete("https://stellarburgers.nomoreparties.site/api/auth/user")
+                .then()
+                .statusCode(200); // Убедитесь, что код ответа 200
     }
 }
