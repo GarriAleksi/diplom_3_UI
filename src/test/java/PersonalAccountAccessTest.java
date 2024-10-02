@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import java.util.concurrent.TimeUnit;
 import ru.yandex.practicum.PersonalAccountPage;
 
 public class PersonalAccountAccessTest {
@@ -13,9 +15,26 @@ public class PersonalAccountAccessTest {
 
     @Before
     public void setupBrowser() {
-        // Автоматическое управление драйвером Chrome
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+        // Получаем выбор браузера из системной проперти или переменной окружения
+        String browser = System.getProperty("browser", System.getenv("BROWSER"));
+        if (browser == null || browser.isEmpty()) {
+            browser = "chrome";  // по умолчанию Chrome, если не задано
+        }
+
+        // Логика выбора браузера
+        switch (browser.toLowerCase()) {
+            case "firefox":
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver();
+                break;
+            case "chrome":
+            default:
+                WebDriverManager.chromedriver().setup();
+                driver = new ChromeDriver();
+                break;
+        }
+
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.get(SITE_URL);
         personalAccountPage = new PersonalAccountPage(driver); // Инициализация страницы
     }
@@ -31,7 +50,5 @@ public class PersonalAccountAccessTest {
     public void clickPersonalAccountTest() {
         // Использование метода из класса страницы
         personalAccountPage.clickPersonalAccountLink();
-
-        // Добавьте дополнительные проверки после клика, если необходимо
     }
 }
