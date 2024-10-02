@@ -1,4 +1,5 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
@@ -20,7 +21,7 @@ public class NavigationConstructorTest {
     private static final String SITE = "https://stellarburgers.nomoreparties.site";
     private WebDriver driver;
     private HomePage homePage;
-    private SectionName sectionName;
+    private final SectionName sectionName;  // Сделано final для безопасности
     private final String attribute = "tab_tab_type_current";
 
     public NavigationConstructorTest(SectionName sectionName) {
@@ -37,6 +38,7 @@ public class NavigationConstructorTest {
     }
 
     @Before
+    @Step("Открываем браузер и переходим на сайт")
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
@@ -47,6 +49,7 @@ public class NavigationConstructorTest {
     }
 
     @After
+    @Step("Закрываем браузер")
     public void tearDown() {
         if (driver != null) {
             driver.quit();
@@ -56,9 +59,15 @@ public class NavigationConstructorTest {
 
     @Test
     @DisplayName("Переход по разделам Конструктора")
+    @Step("Тестирование перехода по разделам конструктора: {sectionName}")
     public void clickSectionTest() {
         log.info("Тестирование перехода на раздел: {}", sectionName);
+        verifyAndClickSection();
+        verifyClassAfterClick();
+    }
 
+    @Step("Проверка и клик на раздел {sectionName}")
+    private void verifyAndClickSection() {
         // Проверка, активна ли вкладка
         String currentClass = homePage.getClassName(sectionName);
         log.info("Текущий класс раздела {}: {}", sectionName, currentClass);
@@ -69,7 +78,10 @@ public class NavigationConstructorTest {
         } else {
             log.info("Вкладка уже активна: {}", sectionName);
         }
+    }
 
+    @Step("Проверка класса после клика на раздел {sectionName}")
+    private void verifyClassAfterClick() {
         // Проверка класса после клика
         String actual = homePage.getClassName(sectionName);
         log.info("Проверяем класс после клика: {}", actual);

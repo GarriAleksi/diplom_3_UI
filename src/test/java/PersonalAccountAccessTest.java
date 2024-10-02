@@ -1,4 +1,6 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Step;
+import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +16,7 @@ public class PersonalAccountAccessTest {
     private PersonalAccountPage personalAccountPage;
 
     @Before
+    @Step("Настройка браузера")
     public void setupBrowser() {
         // Получаем выбор браузера из системной проперти или переменной окружения
         String browser = System.getProperty("browser", System.getenv("BROWSER"));
@@ -40,6 +43,7 @@ public class PersonalAccountAccessTest {
     }
 
     @After
+    @Step("Закрытие браузера")
     public void close() {
         if (driver != null) {
             driver.quit();
@@ -47,6 +51,8 @@ public class PersonalAccountAccessTest {
     }
 
     @Test
+    @DisplayName("Переход в личный кабинет")
+    @Step("Тест: Переход на страницу личного кабинета")
     public void clickPersonalAccountTest() {
         // Использование метода из класса страницы
         personalAccountPage.clickPersonalAccountLink();
