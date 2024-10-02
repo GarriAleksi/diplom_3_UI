@@ -1,0 +1,56 @@
+{
+  "uid" : "6a674d5bda03b6d0",
+  "name" : "Переход по разделам Конструктора",
+  "fullName" : "NavigationConstructorTest.clickSectionTest[1]",
+  "historyId" : "971263b1bd942772df67f98c23ad65fc",
+  "time" : {
+    "start" : 1727882905196,
+    "stop" : 1727882912178,
+    "duration" : 6982
+  },
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ ],
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "package",
+    "value" : ""
+  }, {
+    "name" : "testClass",
+    "value" : "NavigationConstructorTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "clickSectionTest[1]"
+  }, {
+    "name" : "suite",
+    "value" : "NavigationConstructorTest"
+  }, {
+    "name" : "host",
+    "value" : "DESKTOP-NU9LMMM"
+  }, {
+    "name" : "thread",
+    "value" : "7656@DESKTOP-NU9LMMM.main(1)"
+  }, {
+    "name" : "framework",
+    "value" : "junit4"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "6a674d5bda03b6d0.json",
+  "parameterValues" : [ ]
+}

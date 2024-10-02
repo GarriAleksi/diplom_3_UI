@@ -1,0 +1,120 @@
+{
+  "uid" : "7c25d1e75cf0ac9c",
+  "name" : "Регистрация с некорректным паролем (меньше 6 символов)",
+  "fullName" : "RegistrationFunctionalityTest.shouldNotRegisterUserWithInvalidPassword",
+  "historyId" : "17321db93ef6673d3c5c5e1b6fc28e4",
+  "time" : {
+    "start" : 1727882945048,
+    "stop" : 1727882950630,
+    "duration" : 5582
+  },
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Переход на форму регистрации",
+      "time" : {
+        "start" : 1727882948676,
+        "stop" : 1727882949067,
+        "duration" : 391
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "stepsCount" : 0,
+      "hasContent" : false
+    }, {
+      "name" : "Регистрация нового пользователя с именем yWBMLuqqYy, email DnVRO@bKwh.ru, паролем L7UKv",
+      "time" : {
+        "start" : 1727882949067,
+        "stop" : 1727882949898,
+        "duration" : 831
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "name",
+        "value" : "yWBMLuqqYy"
+      }, {
+        "name" : "email",
+        "value" : "DnVRO@bKwh.ru"
+      }, {
+        "name" : "password",
+        "value" : "L7UKv"
+      } ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "stepsCount" : 0,
+      "hasContent" : true
+    }, {
+      "name" : "Проверка сообщения об ошибке для некорректного пароля",
+      "time" : {
+        "start" : 1727882949898,
+        "stop" : 1727882949996,
+        "duration" : 98
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "stepsCount" : 0,
+      "hasContent" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "stepsCount" : 3,
+    "hasContent" : true
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "package",
+    "value" : ""
+  }, {
+    "name" : "testClass",
+    "value" : "RegistrationFunctionalityTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "shouldNotRegisterUserWithInvalidPassword"
+  }, {
+    "name" : "suite",
+    "value" : "RegistrationFunctionalityTest"
+  }, {
+    "name" : "host",
+    "value" : "DESKTOP-NU9LMMM"
+  }, {
+    "name" : "thread",
+    "value" : "7656@DESKTOP-NU9LMMM.main(1)"
+  }, {
+    "name" : "framework",
+    "value" : "junit4"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "7c25d1e75cf0ac9c.json",
+  "parameterValues" : [ ]
+}
