@@ -1,48 +1,34 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import ru.yandex.practicum.HomePage;
 import ru.yandex.practicum.LoginPage;
 import ru.yandex.practicum.RegisterPage;
 import ru.yandex.practicum.generator.UserGenerator;
-import ru.yandex.practicum.HomePage;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
 
-public class RegistrationFunctionalityTest {
+public class RegistrationFunctionalityTest extends BaseTest {
 
     private static final String INCORRECT_PASSWORD_MESSAGE = "Некорректный пароль";
     private static final String SITE_URL = "https://stellarburgers.nomoreparties.site/";
     private static final String EXPECTED_URL_AFTER_REGISTRATION = "https://stellarburgers.nomoreparties.site/login";
 
-    private WebDriver driver;
     private HomePage homePage;
     private LoginPage loginPage;
     private RegisterPage registerPage;
     private final UserGenerator userGenerator = new UserGenerator();
 
-    @Before
+    @Override
+    @Step("Инициализация страниц перед тестами")
     public void setUp() {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        super.setUp();
         driver.get(SITE_URL);
 
         homePage = new HomePage(driver);
         loginPage = new LoginPage(driver);
         registerPage = new RegisterPage(driver);
-    }
-
-    @After
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
     }
 
     @Test
@@ -96,15 +82,13 @@ public class RegistrationFunctionalityTest {
 
     @Step("Удаление пользователя с email {0}")
     private void deleteUser(String email, String password) {
-        // Получение токена доступа
         String accessToken = loginPage.loginAndGetAccessToken(email, password);
 
-        // Удаление пользователя
         given()
                 .header("Authorization", "Bearer " + accessToken)
                 .when()
                 .delete("https://stellarburgers.nomoreparties.site/api/auth/user")
                 .then()
-                .statusCode(200); // Убедитесь, что код ответа 200
+                .statusCode(200);
     }
 }

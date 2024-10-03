@@ -1,14 +1,19 @@
 import io.restassured.http.ContentType;
-import io.restassured.response.Response; // Импортируем Response
+import io.restassured.response.Response;
+import io.qameta.allure.Step;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import ru.yandex.practicum.*;
 import ru.yandex.practicum.constant.ButtonNameForLogin;
 import ru.yandex.practicum.generator.UserGenerator;
 import ru.yandex.practicum.user.User;
+
+import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.given;
 
@@ -24,15 +29,32 @@ public class BaseTest {
     protected User user;
 
     @Before
+    @Step("Настройка тестового окружения и создание тестового пользователя")
     public void setUp() {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+        // Получаем выбор браузера из системной проперти или переменной окружения
+        String browser = System.getProperty("browser", System.getenv("BROWSER"));
+
+        if (browser == null || browser.equalsIgnoreCase("chrome")) {
+            WebDriverManager.chromedriver().setup();
+            driver = new ChromeDriver();
+        } else if (browser.equalsIgnoreCase("firefox")) {
+            WebDriverManager.firefoxdriver().setup();
+            driver = new FirefoxDriver();
+        } else if (browser.equalsIgnoreCase("edge")) {
+            WebDriverManager.edgedriver().setup();
+            driver = new EdgeDriver();
+        } else {
+            throw new IllegalArgumentException("Unsupported browser: " + browser);
+        }
+
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.get(SITE);
         initializePages();
         createUser();
     }
 
     @After
+    @Step("Удаление тестового пользователя и завершение теста")
     public void tearDown() {
         deleteUser();
         if (driver != null) {
@@ -40,7 +62,7 @@ public class BaseTest {
         }
     }
 
-    // Метод для инициализации страниц (Page Objects)
+    @Step("Инициализация Page Object-ов")
     private void initializePages() {
         homePage = new HomePage(driver);
         loginPage = new LoginPage(driver);
@@ -49,7 +71,7 @@ public class BaseTest {
         userPage = new UserPage(driver);
     }
 
-    // Создание тестового пользователя через API
+    @Step("Создание тестового пользователя через API")
     private void createUser() {
         user = userGenerator.getUser();
         given()
@@ -58,7 +80,7 @@ public class BaseTest {
                 .post(SITE + "/api/auth/register");
     }
 
-    // Удаление тестового пользователя через API
+    @Step("Удаление тестового пользователя через API")
     private void deleteUser() {
         // Логин и получение accessToken
         Response response = given()
@@ -78,7 +100,7 @@ public class BaseTest {
                 .delete(SITE + "/api/auth/user");
     }
 
-    // Выполнение действий по нажатию различных кнопок для входа
+    @Step("Нажатие на кнопку для авторизации: {buttonName}")
     public void clickButton(ButtonNameForLogin buttonName) {
         switch (buttonName) {
             case LOGIN_ON_HOME_PAGE:
